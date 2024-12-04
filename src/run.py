@@ -261,15 +261,13 @@ def main():
         device=args.device,
     )
 
-    # Training
-    model.train()
-
     if args.use_wandb:
         initialize_wandb(args)
 
     if args.run_mode == "eval":
+        # Evaluating
         print("Evaluating model...")
-        
+
         test_epoch_stats = run_test(
                 loaders["eval"],
                 model,
@@ -280,6 +278,9 @@ def main():
             print(f"[Test Stat] {metric_name}: {metric:.5f}")
 
     else:
+        # Training
+        print("Training model...")
+
         for epoch in range(1, args.epochs + 1):
             args.curr_epoch = epoch
             print(f"\nEpoch {epoch}/{args.epochs}")
